@@ -1,0 +1,87 @@
+FORMAT: 1A
+HOST: https://api.previo.cz/rest/
+
+# API Previo - Kiosk
+
+This API is for kiosks to communicate with PMS Previo
+
+API Priviliges needed: 'Hotel.addPayment', 'Hotel.getDocuments'
+
+# Basic Auth API
+
+##Headers
+```
+Authorization:Basic {Base64(userEmail:password)}
+X-Previo-Hotel-ID: {hotId}
+X-Previo-Language-ID: {lanId}
+```
+## Payment and accounting document [/invoice]
+
+### Add Payment [POST /invoice/addPayment{?pdf}]
+
++ Parameters
+    + pdf: true (boolean, optional) - Want PDF (true, false)
+  
++ Request (application/json)
+    + Attributes (Payment)
+    + Headers
+
+            Authorization:Basic {Base64(userEmail:password)}
+            X-Previo-Hotel-ID: 11
+            X-Previo-Language: 1
+
++ Response 200 (application/json)
+    + Attributes (PDF)
+
+### Print Invoice PDF [GET /invoice/printInvoice{?invId}{?format}]
+
++ Parameters 
+    + invId: 9169511 (required) - Document number
+    + format: 1 (number, optional) - Format of document 1 - A4, 2 - A5, 3 - Chit 80mm
+
++ Request (application/json)
+    + Headers
+
+            Authorization:Basic {Base64(userEmail:password)}
+            X-Previo-Hotel-ID: 11
+            X-Previo-Language: 1
+
++ Response 200 (application/json)
+    + Attributes (PDF2)
+    
+## Data Structure
+
+## PDF
+
++ invId: 48814 (number) Number of document
++ pdf: JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDEgMCBSIC9MYXN0TW9kaWZpZWQgKEQ6MjAxOTA3MTUxMDAwMjYrMDInMDAnKSAv... (string) - PDF in base64 format
+
+## PDF2
+
++ pdf: JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDEgMCBSIC9MYXN0TW9kaWZpZWQgKEQ6MjAxOTA3MTUxMDAwMjYrMDInMDAnKSAv... (string) - PDF in base64 format
+
+
+## Payment
++ intId: 1 (number, required) - Document Types (1 - Invoice, 2 - Receipt, 3 - Proforma Invoice, 4 - Advance payment document)
++ resId: 454545 (number) - Reservation number
++ comId: 616841 (number) - Commision number - DO NOT USE YET
++ gueId: 264646 (number) - Guest number
++ payId: 2 (number) - Payment method (2 - Bank transfer, 3 - Payment Card, 4 - Cash, 5 - Coupon)
+
+## Receipt
++ invId: 5626262 (number, required) - Document number
++ format: 1 (number, optional) - Format of document 1 - A4, 2 - A5, 3 - Chit 80mm
+
+## Error
++ code: 402 (number,required)
++ error: Failed to get data (string,required)
++ message: Nepodařilo se získat data (string,required)
+
+## AuthError
++ code: 400 (number,required)
++ error: Failed to authenticate pin code (string,required)
++ message: Nepodařilo se ověřit pin (string,required)
+
+## AuthRefreshError
++ code: 400 (number,required)
++ error: Failed to refresh access token (string,required)
