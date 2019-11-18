@@ -33,11 +33,12 @@ X-Previo-Language-ID: {lanId}
 + Response 200 (application/json)
     + Attributes (PDF)
 
-### Print Invoice PDF [GET /invoice/printInvoice{?invId}{?format}]
+### Print Invoice PDF [GET /invoice/printInvoice{?invId}{?invNumber}{?format}]
 
 + Parameters 
-    + invId: 9169511 (required) - Document number
+    + invId: 9169511 (optional) - Document number
     + format: 1 (number, optional) - Format of document 1 - A4, 2 - A5, 3 - Chit 80mm
+    + invNumber: 56585 (optional) - Number of invoice
 
 + Request (application/json)
     + Headers
